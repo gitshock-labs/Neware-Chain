@@ -14,6 +14,10 @@
  */
 export type GtfxParams = object;
 
+export interface GtfxQueryGtfxResponse {
+  text?: string;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
@@ -229,6 +233,22 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryGtfx
+   * @summary Queries a list of Gtfx items.
+   * @request GET:/gtfx/gtfx/gtfx
+   */
+  queryGtfx = (params: RequestParams = {}) =>
+    this.request<GtfxQueryGtfxResponse, RpcStatus>({
+      path: `/gtfx/gtfx/gtfx`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

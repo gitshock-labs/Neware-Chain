@@ -13,6 +13,12 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
+export interface QueryGtfxRequest {}
+
+export interface QueryGtfxResponse {
+  text: string;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -110,10 +116,105 @@ export const QueryParamsResponse = {
   },
 };
 
+const baseQueryGtfxRequest: object = {};
+
+export const QueryGtfxRequest = {
+  encode(_: QueryGtfxRequest, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGtfxRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGtfxRequest } as QueryGtfxRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGtfxRequest {
+    const message = { ...baseQueryGtfxRequest } as QueryGtfxRequest;
+    return message;
+  },
+
+  toJSON(_: QueryGtfxRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<QueryGtfxRequest>): QueryGtfxRequest {
+    const message = { ...baseQueryGtfxRequest } as QueryGtfxRequest;
+    return message;
+  },
+};
+
+const baseQueryGtfxResponse: object = { text: "" };
+
+export const QueryGtfxResponse = {
+  encode(message: QueryGtfxResponse, writer: Writer = Writer.create()): Writer {
+    if (message.text !== "") {
+      writer.uint32(10).string(message.text);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGtfxResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGtfxResponse } as QueryGtfxResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.text = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGtfxResponse {
+    const message = { ...baseQueryGtfxResponse } as QueryGtfxResponse;
+    if (object.text !== undefined && object.text !== null) {
+      message.text = String(object.text);
+    } else {
+      message.text = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGtfxResponse): unknown {
+    const obj: any = {};
+    message.text !== undefined && (obj.text = message.text);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGtfxResponse>): QueryGtfxResponse {
+    const message = { ...baseQueryGtfxResponse } as QueryGtfxResponse;
+    if (object.text !== undefined && object.text !== null) {
+      message.text = object.text;
+    } else {
+      message.text = "";
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a list of Gtfx items. */
+  Gtfx(request: QueryGtfxRequest): Promise<QueryGtfxResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -125,6 +226,12 @@ export class QueryClientImpl implements Query {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("gtfx.gtfx.Query", "Params", data);
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+  }
+
+  Gtfx(request: QueryGtfxRequest): Promise<QueryGtfxResponse> {
+    const data = QueryGtfxRequest.encode(request).finish();
+    const promise = this.rpc.request("gtfx.gtfx.Query", "Gtfx", data);
+    return promise.then((data) => QueryGtfxResponse.decode(new Reader(data)));
   }
 }
 
