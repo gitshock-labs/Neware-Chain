@@ -1,0 +1,14 @@
+syntax = "proto3";
+package gtfx.gtfx;
+
+import "gogoproto/gogo.proto";
+import "gtfx/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "gtfx/x/gtfx/types";
+
+// GenesisState defines the gtfx module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
