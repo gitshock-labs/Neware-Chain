@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 
+	"gtfx/x/gtfx/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"gtfx/x/gtfx/types"
 )
 
 func (k Keeper) Gtfx(goCtx context.Context, req *types.QueryGtfxRequest) (*types.QueryGtfxResponse, error) {
@@ -15,9 +16,7 @@ func (k Keeper) Gtfx(goCtx context.Context, req *types.QueryGtfxRequest) (*types
 	}
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	// TODO: Process the query
 	_ = ctx
 
-	return &types.QueryGtfxResponse{}, nil
+	return &types.QueryGtfxResponse{Text: "Hello, Gitshock Finance On Cosmos Ecosystems!"}, nil // <--
 }
