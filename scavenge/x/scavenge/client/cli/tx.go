@@ -31,10 +31,9 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdSubmitScavenge())
-cmd.AddCommand(CmdCommitSolution())
-cmd.AddCommand(CmdCommitSolution())
-cmd.AddCommand(CmdRevealSolution())
-// this line is used by starport scaffolding # 1
+	cmd.AddCommand(CmdCommitSolution())
+	cmd.AddCommand(CmdRevealSolution())
+	// this line is used by starport scaffolding # 1
 
-	return cmd 
+	return cmd
 }

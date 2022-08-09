@@ -3,15 +3,15 @@ package scavenge
 import (
 	"math/rand"
 
-	"scavenge/testutil/sample"
-	scavengesimulation "scavenge/x/scavenge/simulation"
-	"scavenge/x/scavenge/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
+	"scavenge/testutil/sample"
+	scavengesimulation "scavenge/x/scavenge/simulation"
+	"scavenge/x/scavenge/types"
 )
 
 // avoid unused import issue
@@ -24,13 +24,9 @@ var (
 )
 
 const (
-    opWeightMsgSubmitScavenge = "op_weight_msg_submit_scavenge"
+	opWeightMsgSubmitScavenge = "op_weight_msg_submit_scavenge"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSubmitScavenge int = 100
-
-	opWeightMsgCommitSolution = "op_weight_msg_commit_solution"
-	// TODO: Determine the simulation weight value
-	defaultWeightMsgCommitSolution int = 100
 
 	opWeightMsgCommitSolution = "op_weight_msg_commit_solution"
 	// TODO: Determine the simulation weight value
@@ -50,7 +46,7 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		accs[i] = acc.Address.String()
 	}
 	scavengeGenesis := types.GenesisState{
-		Params:	types.DefaultParams(),
+		Params: types.DefaultParams(),
 		// this line is used by starport scaffolding # simapp/module/genesisState
 	}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&scavengeGenesis)
@@ -63,9 +59,8 @@ func (AppModule) ProposalContents(_ module.SimulationState) []simtypes.WeightedP
 
 // RandomizedParams creates randomized  param changes for the simulator
 func (am AppModule) RandomizedParams(_ *rand.Rand) []simtypes.ParamChange {
-	
-	return []simtypes.ParamChange{
-	}
+
+	return []simtypes.ParamChange{}
 }
 
 // RegisterStoreDecoder registers a decoder
@@ -84,17 +79,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgSubmitScavenge,
 		scavengesimulation.SimulateMsgSubmitScavenge(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
-	var weightMsgCommitSolution int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCommitSolution, &weightMsgCommitSolution, nil,
-		func(_ *rand.Rand) {
-			weightMsgCommitSolution = defaultWeightMsgCommitSolution
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgCommitSolution,
-		scavengesimulation.SimulateMsgCommitSolution(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgCommitSolution int

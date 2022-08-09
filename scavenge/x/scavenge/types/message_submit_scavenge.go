@@ -10,40 +10,39 @@ const TypeMsgSubmitScavenge = "submit_scavenge"
 var _ sdk.Msg = &MsgSubmitScavenge{}
 
 func NewMsgSubmitScavenge(creator string, solutionHash string, description string, reward string) *MsgSubmitScavenge {
-  return &MsgSubmitScavenge{
-		Creator: creator,
-    SolutionHash: solutionHash,
-    Description: description,
-    Reward: reward,
+	return &MsgSubmitScavenge{
+		Creator:      creator,
+		SolutionHash: solutionHash,
+		Description:  description,
+		Reward:       reward,
 	}
 }
 
 func (msg *MsgSubmitScavenge) Route() string {
-  return RouterKey
+	return RouterKey
 }
 
 func (msg *MsgSubmitScavenge) Type() string {
-  return TypeMsgSubmitScavenge
+	return TypeMsgSubmitScavenge
 }
 
 func (msg *MsgSubmitScavenge) GetSigners() []sdk.AccAddress {
-  creator, err := sdk.AccAddressFromBech32(msg.Creator)
-  if err != nil {
-    panic(err)
-  }
-  return []sdk.AccAddress{creator}
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
 }
 
 func (msg *MsgSubmitScavenge) GetSignBytes() []byte {
-  bz := ModuleCdc.MustMarshalJSON(msg)
-  return sdk.MustSortJSON(bz)
+	bz := ModuleCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
 }
 
 func (msg *MsgSubmitScavenge) ValidateBasic() error {
-  _, err := sdk.AccAddressFromBech32(msg.Creator)
-  	if err != nil {
-  		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-  	}
-  return nil
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
 }
-

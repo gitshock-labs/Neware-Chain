@@ -4,9 +4,9 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"scavenge/x/scavenge/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"scavenge/x/scavenge/types"
 )
 
 func (k Keeper) Params(c context.Context, req *types.QueryParamsRequest) (*types.QueryParamsResponse, error) {

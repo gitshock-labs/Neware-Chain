@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-    "scavenge/x/scavenge/types"
-    "scavenge/x/scavenge/keeper"
-    keepertest "scavenge/testutil/keeper"
+	keepertest "scavenge/testutil/keeper"
+	"scavenge/x/scavenge/keeper"
+	"scavenge/x/scavenge/types"
 )
 
 func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {

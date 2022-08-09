@@ -99,11 +99,10 @@ import (
 	monitoringptypes "github.com/tendermint/spn/x/monitoringp/types"
 
 	"scavenge/docs"
-
 	scavengemodule "scavenge/x/scavenge"
-		scavengemodulekeeper "scavenge/x/scavenge/keeper"
-		scavengemoduletypes "scavenge/x/scavenge/types"
-// this line is used by starport scaffolding # stargate/app/moduleImport
+	scavengemodulekeeper "scavenge/x/scavenge/keeper"
+	scavengemoduletypes "scavenge/x/scavenge/types"
+	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
 const (
@@ -158,7 +157,7 @@ var (
 		vesting.AppModuleBasic{},
 		monitoringp.AppModuleBasic{},
 		scavengemodule.AppModuleBasic{},
-// this line is used by starport scaffolding # stargate/app/moduleBasic
+		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
 	// module account permissions
@@ -171,7 +170,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		scavengemoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-// this line is used by starport scaffolding # stargate/app/maccPerms
+		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
 
@@ -231,9 +230,8 @@ type App struct {
 	ScopedTransferKeeper   capabilitykeeper.ScopedKeeper
 	ScopedMonitoringKeeper capabilitykeeper.ScopedKeeper
 
-	
-		ScavengeKeeper scavengemodulekeeper.Keeper
-// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	ScavengeKeeper scavengemodulekeeper.Keeper
+	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
 	mm *module.Manager
@@ -270,7 +268,7 @@ func New(
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, monitoringptypes.StoreKey,
 		scavengemoduletypes.StoreKey,
-// this line is used by starport scaffolding # stargate/app/storeKey
+		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -359,10 +357,10 @@ func New(
 		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
 	)
-    var (
-        transferModule    = transfer.NewAppModule(app.TransferKeeper)
-        transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
-    )
+	var (
+		transferModule    = transfer.NewAppModule(app.TransferKeeper)
+		transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
+	)
 
 	// Create evidence Keeper for to register the IBC light client misbehaviour evidence route
 	evidenceKeeper := evidencekeeper.NewKeeper(
@@ -391,18 +389,17 @@ func New(
 	)
 	monitoringModule := monitoringp.NewAppModule(appCodec, app.MonitoringKeeper)
 
-	
-		app.ScavengeKeeper = *scavengemodulekeeper.NewKeeper(
-			appCodec,
-			keys[scavengemoduletypes.StoreKey],
-			keys[scavengemoduletypes.MemStoreKey],
-			app.GetSubspace(scavengemoduletypes.ModuleName),
-			
-			app.BankKeeper,
-)
-		scavengeModule := scavengemodule.NewAppModule(appCodec, app.ScavengeKeeper, app.AccountKeeper, app.BankKeeper)
+	app.ScavengeKeeper = *scavengemodulekeeper.NewKeeper(
+		appCodec,
+		keys[scavengemoduletypes.StoreKey],
+		keys[scavengemoduletypes.MemStoreKey],
+		app.GetSubspace(scavengemoduletypes.ModuleName),
 
-		// this line is used by starport scaffolding # stargate/app/keeperDefinition
+		app.BankKeeper,
+	)
+	scavengeModule := scavengemodule.NewAppModule(appCodec, app.ScavengeKeeper, app.AccountKeeper, app.BankKeeper)
+
+	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
@@ -444,7 +441,7 @@ func New(
 		transferModule,
 		monitoringModule,
 		scavengeModule,
-// this line is used by starport scaffolding # stargate/app/appModule
+		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -472,7 +469,7 @@ func New(
 		paramstypes.ModuleName,
 		monitoringptypes.ModuleName,
 		scavengemoduletypes.ModuleName,
-// this line is used by starport scaffolding # stargate/app/beginBlockers
+		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -496,7 +493,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		monitoringptypes.ModuleName,
 		scavengemoduletypes.ModuleName,
-// this line is used by starport scaffolding # stargate/app/endBlockers
+		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -525,7 +522,7 @@ func New(
 		feegrant.ModuleName,
 		monitoringptypes.ModuleName,
 		scavengemoduletypes.ModuleName,
-// this line is used by starport scaffolding # stargate/app/initGenesis
+		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -550,7 +547,7 @@ func New(
 		transferModule,
 		monitoringModule,
 		scavengeModule,
-// this line is used by starport scaffolding # stargate/app/appModule
+		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
 
@@ -740,7 +737,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(monitoringptypes.ModuleName)
 	paramsKeeper.Subspace(scavengemoduletypes.ModuleName)
-// this line is used by starport scaffolding # stargate/app/paramSubspace
+	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
 }

@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	testkeeper 	"scavenge/testutil/keeper"
+	testkeeper "scavenge/testutil/keeper"
 	"scavenge/x/scavenge/types"
 )
 
